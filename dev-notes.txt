@@ -1,0 +1,1 @@
+Lesson learned again today. Always read the documentation. Had I been using dynamic schema, table, or column names in my PSQL database, I may have neglected to use the NPM package 'pg-format' to clean any user input from the URL parameters in my requests.
