@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { globals } from '../globals';
+
+const baseURL = globals.baseURL;
 
 const RestaurantList = () => {
+  
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(baseURL + 'restaurants');
+            console.log(response);
+        }
+        try {
+            fetchData();
+        } catch (err) { console.log(err); }
+    }, [])
+
     return ( 
         <div className="list-group">
             <table className="table table-hover table-dark">
