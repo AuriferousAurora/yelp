@@ -10,12 +10,24 @@ const RestaurantList = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-            const response = await fetch(baseURL + 'restaurants').then((res) => res.json())
-            setRestaurants(response.data.restaurants);
+                const response = await fetch(baseURL + 'restaurants').then((res) => res.json())
+                setRestaurants(response.data.restaurants);
             } catch (err) { console.log(err); }
         }
         fetchData();
     }, [])
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(baseURL + 'restaurants/' + id, { method: 'DELETE' })
+                                .then((res) => res.json());
+            if (response.status === 'success') {
+                setRestaurants(restaurants.filter((r) => { return r.id !== id; }));
+            } else { throw response.data.status; }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return ( 
         <div className="list-group">
@@ -39,7 +51,8 @@ const RestaurantList = (props) => {
                                     <td>{'$'.repeat(r.price_range)}</td>
                                     <td>***</td>
                                     <td><button className="btn btn-warning">Edit</button></td>
-                                    <td><button className="btn btn-danger">Delete</button></td>
+                                    {/* () => instead of just passing the name without parenthese passes a reference to the function so it won't execute immediately. */}
+                                    <td><button className="btn btn-danger" onClick={() => handleDelete(r.id)}>Delete</button></td>
                                 </tr>
                             )
                         })}                    
